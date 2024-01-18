@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sumo Game</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #c8a2c8; 
+      text-align: center;
+    }
+    #field {
+      width: 400px;
+      height: 400px;
+      margin: 50px auto;
+      position: relative;
+      background-color: white;
+    }
+    .player {
+      position: absolute;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+    }
+    #player1 {
+      left: 10%;
+      background-color: green; /* Cambiato da blue a verde */
+    }
+    #player2 {
+      left: 90%;
+      background-color: purple; /* Cambiato da red a viola */
+    }
+  </style>
+</head>
+<body>
+  <h1>Sumo Game</h1>
+  <div id="field">
+    <div id="player1" class="player"></div>
+    <div id="player2" class="player"></div>
+  </div>
+  <button id="startButton">Start</button>
+  <script>
+    let timer;
+    let timeLeft = 60;
+    let p1Score = 0;
+    let p2Score = 0;
+
+    function movePlayer(playerId) {
+      const player = document.getElementById(playerId);
+      player.style.top = Math.random() * 300 + "px";
+      playerId === "player1" ? p1Score++ : p2Score++;
+    }
+
+    function startTimer() {
+      countdown();
+      document.getElementById("startButton").disabled = true;
+    }
+
+    function countdown() {
+      timer = setInterval(function() {
+        timeLeft--;
+        if (timeLeft <= 0) {
+          clearInterval(timer);
+          announceWinner();
+        }
+      }, 1000);
+    }
+
+    function announceWinner() {
+      let winnerMessage;
+      if (p1Score > p2Score) {
+        winnerMessage = "Giocatore 1 ha vinto!";
+      } else if (p2Score > p1Score) {
+        winnerMessage = "Giocatore 2 ha vinto!";
+      } else {
+        winnerMessage = "E'  ";
+      }
+      alert(winnerMessage);
+    }
+
+    document.getElementById("startButton").addEventListener("click", startTimer);
+    document.getElementById("player1").addEventListener("click", () => movePlayer("player1"));
+    document.getElementById("player2").addEventListener("click", () => movePlayer("player2"));
+  </script>
+</body>
+</html>
