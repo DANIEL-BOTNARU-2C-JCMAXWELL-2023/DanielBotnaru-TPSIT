@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Calcolatore di peso</title>
+  <h1>Calcolatore peso pianeti extraterrestri</h1>
+</head>
+
+<body>
+  <label for="peso">Inserisci il peso:</label>
+  <input type="number" id="peso" name="peso">
+  <button onclick="calcolaPeso()">Calcola</button>
+  <p id="risultato"></p>
+
+  <script>
+    function calcolaPeso() {
+      var peso = document.getElementById("peso").value;
+      var pesoMercurio = peso * 0.38;
+      var pesoVenere = peso * 0.91;
+      var pesoMarte = peso * 0.38;
+      var pesoGiove = peso * 2.34;
+      var pesoSaturno = peso * 1.06;
+      var pesoUrano = peso * 0.92;
+      var pesoNettuno = peso * 1.19;
+
+      document.getElementById("risultato").innerHTML = "Peso su Mercurio: " + pesoMercurio + " kg<br>" +
+        "Peso su Venere: " + pesoVenere + " kg<br>" +
+        "Peso su Marte: " + pesoMarte + " kg<br>" +
+
+        "Peso su Giove: " + pesoGiove + " kg<br>" +
+        "Peso su Saturno: " + pesoSaturno + " kg<br>" +
+        "Peso su Urano: " + pesoUrano + " kg<br>" +
+        "Peso su Nettuno: " + pesoNettuno + " kg";
+    }
+  </script>
+</body>
+
+</html>
