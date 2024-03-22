@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestione Drink</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-image: url('https://as1.ftcdn.net/v2/jpg/01/58/23/40/1000_F_158234051_x1Mw49rCAUBEgiTQXmagMYx14k4mdpXR.jpg'); 
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+    .overlay {
+      background-color: rgba(255, 255, 255, 0.8); /* Sfondo del contenitore con trasparenza */
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Effetto ombra */
+    }
+    .container {
+      max-width: 600px;
+      margin: 50px auto;
+      text-align: center;
+    }
+    button {
+      margin: 5px;
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+    li {
+      margin-bottom: 10px;
+    }
+    .fixed-drinks {
+      font-style: italic;
+      color: #888;
+    }
+  </style>
+</head>
+<body>
+  <div class="overlay">
+    <div class="container">
+      <h1>Gestione Drink</h1>
+      <button id="btnConta">Conta Elementi</button>
+      <button id="btnAdd">Add</button>
+      <button id="btnDelete">Delete</button>
+      <button id="btnBuy">Buy</button>
+
+      <h2>Lista Drink</h2>
+      <ul id="listaDrink">
+        <!-- Qui verranno aggiunti dinamicamente gli elementi -->
+      </ul>
+      <p class="fixed-drinks">Specialità del posto :</p>
+      <ul class="fixed-drinks" id="fixedDrinkList">
+        <!-- Qui verranno aggiunti dinamicamente gli elementi non modificabili -->
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    const drinkListFixed = ['Vino', 'Birra', 'Coca-Cola'];
+    const drinkList = ['Caffè', 'Te', 'Succhi', 'Acqua'];
+    let orderList = [];
+
+    // Funzione per mostrare la lista dei drink
+    function mostraLista() {
+      const listaDrinkElement = document.getElementById('listaDrink');
+      listaDrinkElement.innerHTML = ''; // Resetta la lista
+
+      drinkList.forEach((drink, index) => {
+        const li = document.createElement('li');
+        li.textContent = `${index + 1}. ${drink}`;
+        listaDrinkElement.appendChild(li);
+      });
+
+      const fixedDrinkListElement = document.getElementById('fixedDrinkList');
+      fixedDrinkListElement.innerHTML = ''; // Resetta la lista
+
+      drinkListFixed.forEach((drink, index) => {
+        const li = document.createElement('li');
+        li.textContent = `${index + 1}. ${drink}`;
+        fixedDrinkListElement.appendChild(li);
+      });
+    }
+
+    // Event listener per il bottone Conta Elementi
+    document.getElementById('btnConta').addEventListener('click', () => {
+      alert(`Numero di drink: ${drinkList.length}`);
+    });
+
+    // Event listener per il bottone Add
+    document.getElementById('btnAdd').addEventListener('click', () => {
+      const newDrink = prompt('Inserisci il nuovo drink:');
+      if (newDrink) {
+        drinkList.push(newDrink.trim());
+        mostraLista();
+      }
+    });
+
+    // Event listener per il bottone Delete
+    document.getElementById('btnDelete').addEventListener('click', () => {
+      const indexToRemove = prompt('Inserisci l\'indice del drink da eliminare:');
+      if (indexToRemove && !isNaN(indexToRemove)) {
+        const index = parseInt(indexToRemove) - 1;
+        if (index >= 0 && index < drinkList.length) {
+          drinkList.splice(index, 1);
+          mostraLista();
+        } else {
+          alert('Indice non valido.');
+        }
+      } else {
+        alert('Inserisci un numero valido.');
+      }
+    });
+
+    // Event listener per il bottone Buy
+    document.getElementById('btnBuy').addEventListener('click', () => {
+      orderList = []; // Resetta la lista degli ordini
+      while (true) {
+        const order = prompt('Inserisci il numero del drink che desideri acquistare (0 per terminare):');
+        if (order === null || order === '' || isNaN(order)) {
+          alert('Inserisci un numero valido.');
+        } else {
+          const orderNum = parseInt(order);
+          if (orderNum === 0) {
+            break;
+          } else if (orderNum >= 1 && orderNum <= drinkList.length) {
+            orderList.push(orderNum);
+          } else {
+            alert('Numero del drink non valido.');
+          }
+        }
+      }
+      // Ordina la lista degli ordini in ordine crescente
+      orderList.sort((a, b) => a - b);
+      mostraListaOrdinata();
+    });
+
+    // Funzione per mostrare la lista dei drink ordinata
+    function mostraListaOrdinata() {
+      const listaDrinkElement = document.getElementById('listaDrink');
+      listaDrinkElement.innerHTML = ''; // Resetta la lista
+
+      orderList.forEach((order, index) => {
+        const drinkIndex = order - 1;
+        if (drinkIndex >= 0 && drinkIndex < drinkList.length) {
+          const li = document.createElement('li');
+          li.textContent = `${index + 1}. ${drinkList[drinkIndex]}`;
+          listaDrinkElement.appendChild(li);
+        }
+      });
+    }
+
+    // Inizializza la lista dei drink al caricamento della pagina
+    mostraLista();
+  </script>
+</body>
+</html>
